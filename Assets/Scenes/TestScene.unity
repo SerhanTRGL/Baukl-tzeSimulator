@@ -1323,11 +1323,15 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: e5b0c29d-9669-4497-b4bf-c4af1361b58a
-    m_ActionName: 'Player_Grounded/Jump[/Keyboard/space]'
+    m_ActionName: 'Player_Grounded/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 474a084f-9f1f-433c-80c6-3add590e6161
-    m_ActionName: 'Player_Grounded/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
+    m_ActionName: 'Player_Grounded/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a54088c8-d75d-4791-a96d-fd52aa578188
+    m_ActionName: 'UI/Submit[/Keyboard/space]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player_Grounded
