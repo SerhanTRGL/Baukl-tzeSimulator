@@ -2,23 +2,18 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour {
+
     private Rigidbody _playerRb;
     private PlayerInputActions _playerInputActions;
-    private PlayerInput _playerInput;
-
 
     [SerializeField] private Vector3 _cameraLookDir;
     [SerializeField] private Vector3 _cameraRightDir;
     [SerializeField] private float speed = 25f;
 
-    private void Awake() {
-        _playerInput = GetComponent<PlayerInput>();
+    private void Start() {
         _playerRb = GetComponent<Rigidbody>();
 
-
-        _playerInputActions = new PlayerInputActions();
-
-        _playerInputActions.Player_Grounded.Enable();
+        _playerInputActions = GameManager.PlayerInputs;
         _playerInputActions.Player_Grounded.Jump.performed += Jump;
     }
 
