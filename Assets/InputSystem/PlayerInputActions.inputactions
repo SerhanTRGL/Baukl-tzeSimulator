@@ -136,6 +136,62 @@
             ]
         },
         {
+            "name": "Player_MidAir",
+            "id": "983c6d87-ef63-4fd3-af65-298cc38ec07b",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "b18aa91a-1e0e-43e7-a399-d66fe733cea3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "da978bfe-4d65-44e5-add4-ced86fd61d45",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Player_Hooked",
+            "id": "b2c38c4a-a397-46d5-b17c-966fd2b034b5",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "8dbcc175-ddc4-4a2c-b643-0434ab1dde3a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "6b9f6335-578f-4ae8-a8e5-9cfc94c67f33",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "UI",
             "id": "495df286-b27a-4b16-80e3-b7b22c985e75",
             "actions": [
@@ -176,17 +232,6 @@
                 },
                 {
                     "devicePath": "<Mouse>",
-                    "isOptional": false,
-                    "isOR": false
-                }
-            ]
-        },
-        {
-            "name": "Gamepad",
-            "bindingGroup": "Gamepad",
-            "devices": [
-                {
-                    "devicePath": "<Gamepad>",
                     "isOptional": false,
                     "isOR": false
                 }

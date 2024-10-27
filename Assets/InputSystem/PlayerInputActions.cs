@@ -158,6 +158,62 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ]
         },
         {
+            ""name"": ""Player_MidAir"",
+            ""id"": ""983c6d87-ef63-4fd3-af65-298cc38ec07b"",
+            ""actions"": [
+                {
+                    ""name"": ""New action"",
+                    ""type"": ""Button"",
+                    ""id"": ""b18aa91a-1e0e-43e7-a399-d66fe733cea3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""da978bfe-4d65-44e5-add4-ced86fd61d45"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""New action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Player_Hooked"",
+            ""id"": ""b2c38c4a-a397-46d5-b17c-966fd2b034b5"",
+            ""actions"": [
+                {
+                    ""name"": ""New action"",
+                    ""type"": ""Button"",
+                    ""id"": ""8dbcc175-ddc4-4a2c-b643-0434ab1dde3a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""6b9f6335-578f-4ae8-a8e5-9cfc94c67f33"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""New action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""UI"",
             ""id"": ""495df286-b27a-4b16-80e3-b7b22c985e75"",
             ""actions"": [
@@ -202,17 +258,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isOR"": false
                 }
             ]
-        },
-        {
-            ""name"": ""Gamepad"",
-            ""bindingGroup"": ""Gamepad"",
-            ""devices"": [
-                {
-                    ""devicePath"": ""<Gamepad>"",
-                    ""isOptional"": false,
-                    ""isOR"": false
-                }
-            ]
         }
     ]
 }");
@@ -221,6 +266,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Grounded_Jump = m_Player_Grounded.FindAction("Jump", throwIfNotFound: true);
         m_Player_Grounded_Movement = m_Player_Grounded.FindAction("Movement", throwIfNotFound: true);
         m_Player_Grounded_ShootHooks = m_Player_Grounded.FindAction("ShootHooks", throwIfNotFound: true);
+        // Player_MidAir
+        m_Player_MidAir = asset.FindActionMap("Player_MidAir", throwIfNotFound: true);
+        m_Player_MidAir_Newaction = m_Player_MidAir.FindAction("New action", throwIfNotFound: true);
+        // Player_Hooked
+        m_Player_Hooked = asset.FindActionMap("Player_Hooked", throwIfNotFound: true);
+        m_Player_Hooked_Newaction = m_Player_Hooked.FindAction("New action", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Submit = m_UI.FindAction("Submit", throwIfNotFound: true);
@@ -229,6 +280,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     ~@PlayerInputActions()
     {
         UnityEngine.Debug.Assert(!m_Player_Grounded.enabled, "This will cause a leak and performance issues, PlayerInputActions.Player_Grounded.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Player_MidAir.enabled, "This will cause a leak and performance issues, PlayerInputActions.Player_MidAir.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Player_Hooked.enabled, "This will cause a leak and performance issues, PlayerInputActions.Player_Hooked.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, PlayerInputActions.UI.Disable() has not been called.");
     }
 
@@ -350,6 +403,98 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     }
     public Player_GroundedActions @Player_Grounded => new Player_GroundedActions(this);
 
+    // Player_MidAir
+    private readonly InputActionMap m_Player_MidAir;
+    private List<IPlayer_MidAirActions> m_Player_MidAirActionsCallbackInterfaces = new List<IPlayer_MidAirActions>();
+    private readonly InputAction m_Player_MidAir_Newaction;
+    public struct Player_MidAirActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public Player_MidAirActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Newaction => m_Wrapper.m_Player_MidAir_Newaction;
+        public InputActionMap Get() { return m_Wrapper.m_Player_MidAir; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(Player_MidAirActions set) { return set.Get(); }
+        public void AddCallbacks(IPlayer_MidAirActions instance)
+        {
+            if (instance == null || m_Wrapper.m_Player_MidAirActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_Player_MidAirActionsCallbackInterfaces.Add(instance);
+            @Newaction.started += instance.OnNewaction;
+            @Newaction.performed += instance.OnNewaction;
+            @Newaction.canceled += instance.OnNewaction;
+        }
+
+        private void UnregisterCallbacks(IPlayer_MidAirActions instance)
+        {
+            @Newaction.started -= instance.OnNewaction;
+            @Newaction.performed -= instance.OnNewaction;
+            @Newaction.canceled -= instance.OnNewaction;
+        }
+
+        public void RemoveCallbacks(IPlayer_MidAirActions instance)
+        {
+            if (m_Wrapper.m_Player_MidAirActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPlayer_MidAirActions instance)
+        {
+            foreach (var item in m_Wrapper.m_Player_MidAirActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_Player_MidAirActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public Player_MidAirActions @Player_MidAir => new Player_MidAirActions(this);
+
+    // Player_Hooked
+    private readonly InputActionMap m_Player_Hooked;
+    private List<IPlayer_HookedActions> m_Player_HookedActionsCallbackInterfaces = new List<IPlayer_HookedActions>();
+    private readonly InputAction m_Player_Hooked_Newaction;
+    public struct Player_HookedActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public Player_HookedActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Newaction => m_Wrapper.m_Player_Hooked_Newaction;
+        public InputActionMap Get() { return m_Wrapper.m_Player_Hooked; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(Player_HookedActions set) { return set.Get(); }
+        public void AddCallbacks(IPlayer_HookedActions instance)
+        {
+            if (instance == null || m_Wrapper.m_Player_HookedActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_Player_HookedActionsCallbackInterfaces.Add(instance);
+            @Newaction.started += instance.OnNewaction;
+            @Newaction.performed += instance.OnNewaction;
+            @Newaction.canceled += instance.OnNewaction;
+        }
+
+        private void UnregisterCallbacks(IPlayer_HookedActions instance)
+        {
+            @Newaction.started -= instance.OnNewaction;
+            @Newaction.performed -= instance.OnNewaction;
+            @Newaction.canceled -= instance.OnNewaction;
+        }
+
+        public void RemoveCallbacks(IPlayer_HookedActions instance)
+        {
+            if (m_Wrapper.m_Player_HookedActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPlayer_HookedActions instance)
+        {
+            foreach (var item in m_Wrapper.m_Player_HookedActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_Player_HookedActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public Player_HookedActions @Player_Hooked => new Player_HookedActions(this);
+
     // UI
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
@@ -404,20 +549,19 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_KeyboardMouseSchemeIndex];
         }
     }
-    private int m_GamepadSchemeIndex = -1;
-    public InputControlScheme GamepadScheme
-    {
-        get
-        {
-            if (m_GamepadSchemeIndex == -1) m_GamepadSchemeIndex = asset.FindControlSchemeIndex("Gamepad");
-            return asset.controlSchemes[m_GamepadSchemeIndex];
-        }
-    }
     public interface IPlayer_GroundedActions
     {
         void OnJump(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
         void OnShootHooks(InputAction.CallbackContext context);
+    }
+    public interface IPlayer_MidAirActions
+    {
+        void OnNewaction(InputAction.CallbackContext context);
+    }
+    public interface IPlayer_HookedActions
+    {
+        void OnNewaction(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
