@@ -1065,7 +1065,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 639998015}
-  - component: {fileID: 639998016}
   - component: {fileID: 639998018}
   m_Layer: 0
   m_Name: HookShootPoint_L
@@ -1089,20 +1088,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1842912506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &639998016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 639998014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a77a91b7b39f0943bd45232ad4f50b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectsInCloseProximity: []
-  _lineRenderer: {fileID: 0}
 --- !u!120 &639998018
 LineRenderer:
   serializedVersion: 2
@@ -1150,7 +1135,7 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: -3, y: 0, z: 0}
+  - {x: -3.01, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -1462,6 +1447,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: eae3420f-5d20-4142-a9b4-927e2fc5a482
     m_ActionName: 'Player_Grounded/ShootHooks[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b18aa91a-1e0e-43e7-a399-d66fe733cea3
+    m_ActionName: Player_MidAir/New action
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8dbcc175-ddc4-4a2c-b643-0434ab1dde3a
+    m_ActionName: Player_Hooked/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player_Grounded
@@ -1759,7 +1752,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 950018776}
-  - component: {fileID: 950018778}
   - component: {fileID: 950018779}
   m_Layer: 0
   m_Name: HookShootPoint_R
@@ -1783,20 +1775,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1842912506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &950018778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 950018775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a77a91b7b39f0943bd45232ad4f50b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectsInCloseProximity: []
-  _lineRenderer: {fileID: 0}
 --- !u!120 &950018779
 LineRenderer:
   serializedVersion: 2
@@ -1933,8 +1911,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 520785698}
   - {fileID: 1128363263}
+  - {fileID: 520785698}
   m_Father: {fileID: 925835137}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1023592813
@@ -3134,10 +3112,12 @@ MonoBehaviour:
   _leftHookShootPoint: {fileID: 950018776}
   _rightHookShootPoint: {fileID: 639998015}
   _mainCamera: {fileID: 0}
-  _rayIterations: 5
-  _rayDistanceFromPlayer: 25
-  _currentSurfaceDetectionMode: 0
+  _rayIterations: 25
+  _maxRayDistanceFromPlayer: 110
+  _minRayDistanceFromPlayer: 5
+  _currentSurfaceDetectionMode: 1
   _detectRadius: 0.5
+  _angleLimit: 0.5
   _potentialLeftHookAttachObject: {fileID: 0}
   _potentialRightHookAttachObject: {fileID: 0}
   _leftCapsuleWithHit: 0

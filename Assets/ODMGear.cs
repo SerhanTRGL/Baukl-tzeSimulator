@@ -11,7 +11,8 @@ public class ODMGear : MonoBehaviour {
     [SerializeField] private Transform _rightHookShootPoint;
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private int _rayIterations = 5;
-    [SerializeField] private float _rayDistanceFromPlayer = 25f;
+    [SerializeField] private float _maxRayDistanceFromPlayer = 25f;
+    [SerializeField] private float _minRayDistanceFromPlayer = 2f;
     [SerializeField] private SurfaceDetectionMode _currentSurfaceDetectionMode = SurfaceDetectionMode.CapsuleCast;
     [SerializeField] private float _detectRadius = 0.5f;
     [SerializeField]
@@ -33,26 +34,18 @@ public class ODMGear : MonoBehaviour {
         _mainCamera = Camera.main;
     }
 
+    private void Update() {
+        _leftLineRenderer.SetPosition(0, _leftHookShootPoint.position);
+        _rightLineRenderer.SetPosition(0, _rightHookShootPoint.position);
+    }
+
     void FixedUpdate() {
         Vector3 leftHookPlacement;
         Vector3 rightHookPlacement;
         FindHookPlacements(out rightHookPlacement, out leftHookPlacement);
 
-        _leftLineRenderer.SetPosition(0, _leftHookShootPoint.position);
-        if (leftHookPlacement != Vector3.zero) {
-            _leftLineRenderer.SetPosition(1, leftHookPlacement);
-        }
-        else {
-            _leftLineRenderer.SetPosition(1, _leftHookShootPoint.position);
-        }
-
-        _rightLineRenderer.SetPosition(0, _rightHookShootPoint.position);
-        if (rightHookPlacement != Vector3.zero) {
-            _rightLineRenderer.SetPosition(1, rightHookPlacement);
-        }
-        else {
-            _rightLineRenderer.SetPosition(1, _rightHookShootPoint.position);
-        }
+        _leftLineRenderer.SetPosition(1, leftHookPlacement);
+        _rightLineRenderer.SetPosition(1, rightHookPlacement);
     }
 
     public void FindHookPlacements(out Vector3 leftHookPlacement, out Vector3 rightHookPlacement) {
@@ -83,14 +76,15 @@ public class ODMGear : MonoBehaviour {
                             _detectRadius,
                             interVectorR,
                             out rightHit,
-                            _rayDistanceFromPlayer,
+                            _maxRayDistanceFromPlayer,
                             LayerMask.GetMask("ODM_Attachable"))) {
-
-                            Debug.Log("Right hit distance: " + rightHit.distance);
-                            _potentialRightHookAttachObject = rightHit.collider.gameObject;
-                            _rightCapsuleWithHit = i;
-                            rightHookPlacement = rightHit.point;
-                            rightHitFound = true;
+                            if (rightHit.distance > _minRayDistanceFromPlayer) {
+                                Debug.Log("Right hit distance: " + rightHit.distance);
+                                _potentialRightHookAttachObject = rightHit.collider.gameObject;
+                                _rightCapsuleWithHit = i;
+                                rightHookPlacement = rightHit.point;
+                                rightHitFound = true;
+                            }
                         }
                     }
 
@@ -103,14 +97,15 @@ public class ODMGear : MonoBehaviour {
                             _detectRadius,
                             interVectorL,
                             out leftHit,
-                            _rayDistanceFromPlayer,
+                            _maxRayDistanceFromPlayer,
                             LayerMask.GetMask("ODM_Attachable"))) {
-
-                            Debug.Log("Left hit distance: " + leftHit.distance);
-                            _potentialLeftHookAttachObject = leftHit.collider.gameObject;
-                            _leftCapsuleWithHit = i;
-                            leftHookPlacement = leftHit.point;
-                            leftHitFound = true;
+                            if (leftHit.distance > _minRayDistanceFromPlayer) {
+                                Debug.Log("Left hit distance: " + leftHit.distance);
+                                _potentialLeftHookAttachObject = leftHit.collider.gameObject;
+                                _leftCapsuleWithHit = i;
+                                leftHookPlacement = leftHit.point;
+                                leftHitFound = true;
+                            }
                         }
                     }
                 }
@@ -131,9 +126,9 @@ public class ODMGear : MonoBehaviour {
                 Vector3 playerPos = transform.position;
                 Vector3 forwardDir = _mainCamera.transform.forward.normalized;
                 Vector3 rightDir = _mainCamera.transform.right.normalized;
-                Gizmos.DrawLine(playerPos, playerPos + forwardDir * _rayDistanceFromPlayer);
-                Gizmos.DrawLine(playerPos, playerPos + rightDir * _rayDistanceFromPlayer);
-                Gizmos.DrawLine(playerPos, playerPos + -rightDir * _rayDistanceFromPlayer);
+                Gizmos.DrawLine(playerPos, playerPos + forwardDir * _maxRayDistanceFromPlayer);
+                Gizmos.DrawLine(playerPos, playerPos + rightDir * _maxRayDistanceFromPlayer);
+                Gizmos.DrawLine(playerPos, playerPos + -rightDir * _maxRayDistanceFromPlayer);
 
 
                 if (_rayIterations > 0) {
@@ -142,12 +137,12 @@ public class ODMGear : MonoBehaviour {
                         Gizmos.color = new Color(powered, powered, powered);
                         Vector3 interVectorR = Vector3.Lerp(forwardDir, rightDir, i).normalized;
                         Vector3 interVectorL = Vector3.Lerp(forwardDir, -rightDir, i).normalized;
-                        Gizmos.DrawLine(playerPos, playerPos + interVectorR * _rayDistanceFromPlayer);
-                        Gizmos.DrawLine(playerPos, playerPos + interVectorL * _rayDistanceFromPlayer);
+                        Gizmos.DrawLine(playerPos, playerPos + interVectorR * _maxRayDistanceFromPlayer);
+                        Gizmos.DrawLine(playerPos, playerPos + interVectorL * _maxRayDistanceFromPlayer);
 
                         Gizmos.color = Color.magenta;
-                        Gizmos.DrawWireSphere(playerPos + interVectorR * _rayDistanceFromPlayer, _detectRadius);
-                        Gizmos.DrawWireSphere(playerPos + interVectorL * _rayDistanceFromPlayer, _detectRadius);
+                        Gizmos.DrawWireSphere(playerPos + interVectorR * _maxRayDistanceFromPlayer, _detectRadius);
+                        Gizmos.DrawWireSphere(playerPos + interVectorL * _maxRayDistanceFromPlayer, _detectRadius);
                     }
                 }
             }
@@ -156,9 +151,9 @@ public class ODMGear : MonoBehaviour {
                 Vector3 playerPos = transform.position;
                 Vector3 forwardDir = _mainCamera.transform.forward.normalized;
                 Vector3 rightDir = _mainCamera.transform.right.normalized;
-                Gizmos.DrawLine(playerPos, playerPos + forwardDir * _rayDistanceFromPlayer);
-                Gizmos.DrawLine(playerPos, playerPos + rightDir * _rayDistanceFromPlayer);
-                Gizmos.DrawLine(playerPos, playerPos + -rightDir * _rayDistanceFromPlayer);
+                Gizmos.DrawLine(playerPos, playerPos + forwardDir * _maxRayDistanceFromPlayer);
+                Gizmos.DrawLine(playerPos, playerPos + rightDir * _maxRayDistanceFromPlayer);
+                Gizmos.DrawLine(playerPos, playerPos + -rightDir * _maxRayDistanceFromPlayer);
 
                 if (_rayIterations > 0) {
                     for (float i = 1f / (float)_rayIterations; i < _angleLimit; i += 1f / (float)_rayIterations) {
@@ -167,16 +162,20 @@ public class ODMGear : MonoBehaviour {
                         Vector3 interVectorR = Vector3.Lerp(forwardDir, rightDir, i).normalized;
                         Vector3 interVectorL = Vector3.Lerp(forwardDir, -rightDir, i).normalized;
 
-                        Gizmos.color = new Color(powered, powered, powered);
-                        if (i == _rightCapsuleWithHit) {
-                            Gizmos.color = Color.red;
+                        if (_rightCapsuleWithHit != 0 && i <= _rightCapsuleWithHit) {
+                            Gizmos.color = new Color(powered, powered, powered);
+                            if (i == _rightCapsuleWithHit) {
+                                Gizmos.color = Color.red;
+                            }
+                            DrawCapsule(playerPos, interVectorR, _maxRayDistanceFromPlayer, _detectRadius);
                         }
-                        DrawCapsule(playerPos, interVectorR, _rayDistanceFromPlayer, _detectRadius);
-                        Gizmos.color = new Color(powered, powered, powered);
-                        if (i == _leftCapsuleWithHit) {
-                            Gizmos.color = Color.red;
+                        if (_leftCapsuleWithHit != 0 && i <= _leftCapsuleWithHit) {
+                            Gizmos.color = new Color(powered, powered, powered);
+                            if (i == _leftCapsuleWithHit) {
+                                Gizmos.color = Color.red;
+                            }
+                            DrawCapsule(playerPos, interVectorL, _maxRayDistanceFromPlayer, _detectRadius);
                         }
-                        DrawCapsule(playerPos, interVectorL, _rayDistanceFromPlayer, _detectRadius);
                     }
                 }
             }
