@@ -140,9 +140,9 @@
             "id": "983c6d87-ef63-4fd3-af65-298cc38ec07b",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "ShootHooks",
                     "type": "Button",
-                    "id": "b18aa91a-1e0e-43e7-a399-d66fe733cea3",
+                    "id": "d8eca66e-1041-4109-b773-7575925ab578",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -152,12 +152,12 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "da978bfe-4d65-44e5-add4-ced86fd61d45",
-                    "path": "",
+                    "id": "6fa55d5c-5f73-4f4b-baa8-3f6919ba348d",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "ShootHooks",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

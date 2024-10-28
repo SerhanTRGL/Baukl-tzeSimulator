@@ -1221,7 +1221,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 674149160}
-  m_Material: {fileID: 13400000, guid: 2900337455f0e974e8b3312b1789e37d, type: 2}
+  m_Material: {fileID: 13400000, guid: 9fa837a2c3cac3e4ea20f7232aead156, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1449,12 +1449,12 @@ MonoBehaviour:
     m_ActionName: 'Player_Grounded/ShootHooks[/Mouse/leftButton]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: b18aa91a-1e0e-43e7-a399-d66fe733cea3
-    m_ActionName: Player_MidAir/New action
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 8dbcc175-ddc4-4a2c-b643-0434ab1dde3a
     m_ActionName: Player_Hooked/New action
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d8eca66e-1041-4109-b773-7575925ab578
+    m_ActionName: 'Player_MidAir/ShootHooks[/Mouse/leftButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player_Grounded
@@ -3109,8 +3109,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e10acdf792dd2e34d93c585f10fcd838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerRb: {fileID: 0}
   _leftHookShootPoint: {fileID: 950018776}
   _rightHookShootPoint: {fileID: 639998015}
+  _leftAnchorPoint: {x: 0, y: 0, z: 0}
+  _rightAnchorPoint: {x: 0, y: 0, z: 0}
   _mainCamera: {fileID: 0}
   _rayIterations: 25
   _maxRayDistanceFromPlayer: 110
@@ -3120,10 +3123,17 @@ MonoBehaviour:
   _angleLimit: 0.5
   _potentialLeftHookAttachObject: {fileID: 0}
   _potentialRightHookAttachObject: {fileID: 0}
+  _isLeftHookAttached: 0
+  _isRightHookAttached: 0
+  _isLeftAttachmentOngoing: 0
+  _isRightAttachmentOngoing: 0
   _leftCapsuleWithHit: 0
   _rightCapsuleWithHit: 0
   _leftLineRenderer: {fileID: 639998018}
   _rightLineRenderer: {fileID: 950018779}
+  _hookMoveSpeed: 200
+  _hookForceMultiplier: 20
+  _odmGearPullDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &2070300146
 GameObject:
   m_ObjectHideFlags: 0

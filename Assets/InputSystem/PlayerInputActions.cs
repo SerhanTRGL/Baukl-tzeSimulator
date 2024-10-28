@@ -162,9 +162,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""id"": ""983c6d87-ef63-4fd3-af65-298cc38ec07b"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""ShootHooks"",
                     ""type"": ""Button"",
-                    ""id"": ""b18aa91a-1e0e-43e7-a399-d66fe733cea3"",
+                    ""id"": ""d8eca66e-1041-4109-b773-7575925ab578"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -174,12 +174,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""da978bfe-4d65-44e5-add4-ced86fd61d45"",
-                    ""path"": """",
+                    ""id"": ""6fa55d5c-5f73-4f4b-baa8-3f6919ba348d"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""ShootHooks"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -268,7 +268,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Grounded_ShootHooks = m_Player_Grounded.FindAction("ShootHooks", throwIfNotFound: true);
         // Player_MidAir
         m_Player_MidAir = asset.FindActionMap("Player_MidAir", throwIfNotFound: true);
-        m_Player_MidAir_Newaction = m_Player_MidAir.FindAction("New action", throwIfNotFound: true);
+        m_Player_MidAir_ShootHooks = m_Player_MidAir.FindAction("ShootHooks", throwIfNotFound: true);
         // Player_Hooked
         m_Player_Hooked = asset.FindActionMap("Player_Hooked", throwIfNotFound: true);
         m_Player_Hooked_Newaction = m_Player_Hooked.FindAction("New action", throwIfNotFound: true);
@@ -406,12 +406,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     // Player_MidAir
     private readonly InputActionMap m_Player_MidAir;
     private List<IPlayer_MidAirActions> m_Player_MidAirActionsCallbackInterfaces = new List<IPlayer_MidAirActions>();
-    private readonly InputAction m_Player_MidAir_Newaction;
+    private readonly InputAction m_Player_MidAir_ShootHooks;
     public struct Player_MidAirActions
     {
         private @PlayerInputActions m_Wrapper;
         public Player_MidAirActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Player_MidAir_Newaction;
+        public InputAction @ShootHooks => m_Wrapper.m_Player_MidAir_ShootHooks;
         public InputActionMap Get() { return m_Wrapper.m_Player_MidAir; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -421,16 +421,16 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_Player_MidAirActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_Player_MidAirActionsCallbackInterfaces.Add(instance);
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
+            @ShootHooks.started += instance.OnShootHooks;
+            @ShootHooks.performed += instance.OnShootHooks;
+            @ShootHooks.canceled += instance.OnShootHooks;
         }
 
         private void UnregisterCallbacks(IPlayer_MidAirActions instance)
         {
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
+            @ShootHooks.started -= instance.OnShootHooks;
+            @ShootHooks.performed -= instance.OnShootHooks;
+            @ShootHooks.canceled -= instance.OnShootHooks;
         }
 
         public void RemoveCallbacks(IPlayer_MidAirActions instance)
@@ -557,7 +557,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     }
     public interface IPlayer_MidAirActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnShootHooks(InputAction.CallbackContext context);
     }
     public interface IPlayer_HookedActions
     {
