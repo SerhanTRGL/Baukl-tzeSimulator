@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour {
         _playerInputActions.Player_Grounded.Jump.performed += Jump;
     }
 
+
     private void FixedUpdate() {
         Vector2 inputVector = _playerInputActions.Player_Grounded.Movement.ReadValue<Vector2>();
 
