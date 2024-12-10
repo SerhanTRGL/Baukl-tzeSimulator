@@ -19,9 +19,11 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Update() {
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.P)) {
             EditorApplication.isPaused = true;
         }
+#endif
     }
 
 }
